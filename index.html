@@ -112,10 +112,11 @@
 
 <script>
   // Une ligne par pépite. Le numéro est celui du badge jaune de la vidéo.
+  // « pub » : date de sortie de la vidéo. La pépite n'apparaît qu'à partir de ce jour (heure de Paris).
   const PEPITES = [
-    { n: "003", nom: "Coupe-légumes Fullstar", note: "4,4/5 · plus de 90 000 avis", img: "img/81pY1HCEKVL.jpg", lien: "https://www.amazon.fr/dp/B0764HS4SL" },
-    { n: "002", nom: "Étagères de placard empilables", note: "4,6/5 · plus de 11 000 avis", img: "img/71fzYKniELL.jpg", lien: "https://www.amazon.fr/dp/B08YRDBBYJ" },
-    { n: "001", nom: "Tapis de bain diatomite qui sèche en quelques secondes", note: "4,3/5 · près de 2 000 avis", img: "img/51s7WjqqCbL.jpg", lien: "https://www.amazon.fr/dp/B0CHJSV6VH" },
+    { n: "003", pub: "2026-10-30", nom: "Coupe-légumes Fullstar", note: "4,4/5 · plus de 90 000 avis", img: "img/81pY1HCEKVL.jpg", lien: "https://www.amazon.fr/dp/B0764HS4SL" },
+    { n: "002", pub: "2026-10-29", nom: "Étagères de placard empilables", note: "4,6/5 · plus de 11 000 avis", img: "img/71fzYKniELL.jpg", lien: "https://www.amazon.fr/dp/B08YRDBBYJ" },
+    { n: "001", pub: "2026-10-28", nom: "Tapis de bain diatomite qui sèche en quelques secondes", note: "4,3/5 · près de 2 000 avis", img: "img/51s7WjqqCbL.jpg", lien: "https://www.amazon.fr/dp/B0CHJSV6VH" },
   ];
 
   const liste = document.getElementById('liste');
@@ -137,7 +138,8 @@
   const afficher = () => {
     const q = sansAccent(champ.value.trim());
     const chiffres = q.replace(/\D/g, '');
-    const res = PEPITES.filter((p) => {
+    const auj = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
+    const res = PEPITES.filter((p) => p.pub <= auj).filter((p) => {
       if (!q) return true;
       if (chiffres && /^\d+$/.test(q)) return p.n.endsWith(chiffres.padStart(3, '0')) || p.n === chiffres.padStart(3, '0') || String(+p.n) === chiffres;
       return sansAccent(p.nom).includes(q);
