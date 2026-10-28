@@ -1,0 +1,153 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ma pépite du jour</title>
+<meta name="description" content="Toutes les pépites de @mapepitedujour : tape le numéro de la vidéo pour retrouver le produit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Une colonne façon « lien en bio » : en-tête, recherche par numéro, cartes numérotées. Look unique, clair, assumé. */
+  :root {
+    --fond: #fff0f4;
+    --carte: #ffffff;
+    --encre: #1a1830;
+    --doux: #6b6580;
+    --pepite: #ffc21a;
+    --bord: #f3d6df;
+    --rose: #e0457b;
+    --police: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--encre);
+    font-family: var(--police);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .page {
+    max-width: 520px;
+    margin: 0 auto;
+    padding-block: 28px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .entete { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .logo { width: 72px; height: 72px; border-radius: 50%; background: #ffe1ea; display: grid; place-items: center; border: 2px solid var(--encre); }
+  .entete h1 { font-size: 24px; font-weight: 800; margin: 6px 0 0; letter-spacing: -0.01em; text-wrap: balance; }
+  .entete p { margin: 0; color: var(--doux); font-size: 15px; max-width: 36ch; }
+  .recherche { position: relative; }
+  .recherche label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .recherche input {
+    width: 100%;
+    font: inherit;
+    font-size: 17px;
+    padding: 15px 16px 15px 50px;
+    border: 2px solid var(--encre);
+    border-radius: 16px;
+    background: var(--carte);
+    color: var(--encre);
+  }
+  .recherche input:focus { outline: none; box-shadow: 0 0 0 4px var(--pepite); }
+  .recherche .diese { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-weight: 800; font-size: 18px; color: var(--rose); }
+  .liste { display: flex; flex-direction: column; gap: 12px; }
+  .pepite {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    align-items: center;
+    background: var(--carte);
+    border: 1px solid var(--bord);
+    border-radius: 18px;
+    padding: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .pepite:hover, .pepite:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(26, 24, 48, .08); outline: none; }
+  .pepite:focus-visible { box-shadow: 0 0 0 3px var(--pepite); }
+  .vignette { position: relative; width: 88px; height: 88px; border-radius: 12px; background: #fafafa; overflow: hidden; }
+  .vignette img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .numero {
+    position: absolute; left: 4px; top: 4px;
+    background: var(--pepite); color: var(--encre);
+    font-weight: 800; font-size: 13px;
+    padding: 2px 7px; border-radius: 7px;
+    font-variant-numeric: tabular-nums;
+  }
+  .infos { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .infos strong { font-size: 16px; font-weight: 700; line-height: 1.25; }
+  .note { font-size: 13px; color: var(--doux); }
+  .bouton { align-self: flex-start; margin-top: 4px; background: var(--encre); color: #fff; font-size: 14px; font-weight: 700; padding: 7px 12px; border-radius: 10px; }
+  .vide { text-align: center; color: var(--doux); background: var(--carte); border: 1px dashed var(--bord); border-radius: 18px; padding: 22px 16px; }
+  .vide strong { color: var(--encre); display: block; margin-bottom: 4px; }
+  .pied { text-align: center; font-size: 12px; color: var(--doux); max-width: 44ch; margin: 6px auto 0; }
+  @media (prefers-reduced-motion: reduce) { .pepite { transition: none; } .pepite:hover { transform: none; } }
+</style>
+</head><body>
+<main class="page">
+  <header class="entete">
+    <div class="logo" aria-hidden="true">
+      <svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z" fill="#ffc21a" stroke="#1a1830" stroke-width="0.8" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>Ma pépite du jour</h1>
+    <p>Tape le numéro affiché dans la vidéo pour retrouver le produit.</p>
+  </header>
+
+  <form class="recherche" role="search" id="form">
+    <label for="q">Numéro de la pépite</label>
+    <span class="diese" aria-hidden="true">n°</span>
+    <input id="q" type="search" inputmode="numeric" placeholder="Ex. 002, ou « tapis »" autocomplete="off">
+  </form>
+
+  <section class="liste" id="liste" aria-live="polite"></section>
+  <div class="vide" id="vide" hidden><strong>Pas de pépite avec ce numéro.</strong>Vérifie le numéro dans la vidéo, ou commente PÉPITE sous la vidéo pour recevoir le lien.</div>
+
+  <p class="pied">Liens rémunérés : en tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises, sans surcoût pour toi. Les prix peuvent changer à tout moment chez le marchand.</p>
+</main>
+
+<script>
+  // Une ligne par pépite. Le numéro est celui du badge jaune de la vidéo.
+  const PEPITES = [
+    { n: "003", nom: "Coupe-légumes Fullstar", note: "4,4/5 · plus de 90 000 avis", img: "img/81pY1HCEKVL.jpg", lien: "https://www.amazon.fr/dp/B0764HS4SL" },
+    { n: "002", nom: "Étagères de placard empilables", note: "4,6/5 · plus de 11 000 avis", img: "img/71fzYKniELL.jpg", lien: "https://www.amazon.fr/dp/B08YRDBBYJ" },
+    { n: "001", nom: "Tapis de bain diatomite qui sèche en quelques secondes", note: "4,3/5 · près de 2 000 avis", img: "img/51s7WjqqCbL.jpg", lien: "https://www.amazon.fr/dp/B0CHJSV6VH" },
+  ];
+
+  const liste = document.getElementById('liste');
+  const vide = document.getElementById('vide');
+  const champ = document.getElementById('q');
+  const sansAccent = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  const carte = (p) => {
+    const a = document.createElement('a');
+    a.className = 'pepite';
+    a.href = p.lien;
+    a.target = '_blank';
+    a.rel = 'sponsored nofollow noopener';
+    a.innerHTML = `<span class="vignette"><img src="${p.img}" alt="" loading="lazy"><span class="numero">n°${p.n}</span></span>
+      <span class="infos"><strong>${p.nom}</strong><span class="note">★ ${p.note}</span><span class="bouton">Voir le produit →</span></span>`;
+    return a;
+  };
+
+  const afficher = () => {
+    const q = sansAccent(champ.value.trim());
+    const chiffres = q.replace(/\D/g, '');
+    const res = PEPITES.filter((p) => {
+      if (!q) return true;
+      if (chiffres && /^\d+$/.test(q)) return p.n.endsWith(chiffres.padStart(3, '0')) || p.n === chiffres.padStart(3, '0') || String(+p.n) === chiffres;
+      return sansAccent(p.nom).includes(q);
+    });
+    liste.replaceChildren(...res.map(carte));
+    vide.hidden = res.length > 0;
+  };
+
+  champ.addEventListener('input', afficher);
+  document.getElementById('form').addEventListener('submit', (e) => { e.preventDefault(); champ.blur(); });
+  afficher();
+</script>
+</body></html>
