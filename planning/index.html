@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Planning pépites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Planning de publication : un jour par carte, la vidéo à gauche, tout ce qu'il faut copier à droite. */
+  :root {
+    --fond: #fff0f4;
+    --carte: #ffffff;
+    --encre: #1a1830;
+    --doux: #6b6580;
+    --pepite: #ffc21a;
+    --bord: #f3d6df;
+    --ok: #1f7a3a;
+    --police: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font-family: var(--police); font-size: 15px; line-height: 1.45; }
+  .page { max-width: 900px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 16px; }
+  h1 { font-size: 26px; font-weight: 800; margin: 0; }
+  .intro { color: var(--doux); margin: 0; max-width: 62ch; }
+  #jours { display: flex; flex-direction: column; gap: 16px; }
+  .jour { background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 14px; display: grid; grid-template-columns: 180px 1fr; gap: 16px; align-items: start; }
+  .jour.aujourdhui { border: 2px solid var(--encre); box-shadow: 0 0 0 4px var(--pepite); }
+  .jour.passe { opacity: .55; }
+  .media { display: flex; flex-direction: column; gap: 8px; }
+  video { width: 100%; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 12px; background: #000; display: block; }
+  .corps { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .entete { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .num { background: var(--pepite); font-weight: 800; padding: 2px 8px; border-radius: 7px; font-variant-numeric: tabular-nums; }
+  .date { font-weight: 700; }
+  .etat { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 3px 8px; border-radius: 99px; background: #f1eef5; color: var(--doux); }
+  .aujourdhui .etat { background: var(--encre); color: #fff; }
+  .produit { font-size: 17px; font-weight: 700; margin: 0; }
+  .bloc { border: 1px solid var(--bord); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .bloc-titre { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--doux); }
+  pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--police); font-size: 14px; }
+  button, .bouton { font: inherit; font-size: 13px; font-weight: 700; border: 0; border-radius: 9px; padding: 6px 10px; background: var(--encre); color: #fff; cursor: pointer; text-decoration: none; text-align: center; }
+  button.copie { background: var(--pepite); color: var(--encre); }
+  button.copie.fait { background: #e3f6e8; color: var(--ok); }
+  button:focus-visible, .bouton:focus-visible { outline: 3px solid var(--pepite); outline-offset: 2px; }
+  .lien { font-size: 14px; word-break: break-all; }
+  @media (max-width: 620px) { .jour { grid-template-columns: 1fr; } .media { max-width: 240px; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>Planning pépites</h1>
+  <p class="intro">Chaque jour : télécharge la vidéo, copie la légende, programme à 18 h 30 avec une musique calme. Le lien et l'automatisation ManyChat sont gérés par Claude.</p>
+  <div id="jours"></div>
+</main>
+
+<script>
+  // Ajouter une ligne par nouvelle vidéo. « date » au format AAAA-MM-JJ.
+  const PLANNING = [
+    { n: "001", date: "2026-10-28", produit: "Tapis de bain diatomite", video: "001-tapis-diatomite.mp4", lien: "https://amzn.to/4zgjvsF",
+      legende: "Le tapis de bain encore trempé des heures après la douche, on connaît tous 😩 Celui-ci sèche en quelques secondes ✨", tags: "#salledebain #astucemaison #pepite #amazonfr #maison" },
+    { n: "002", date: "2026-10-29", produit: "Étagères de placard empilables", video: "002-rangement-placard.mp4", lien: "https://amzn.to/4kisTHp",
+      legende: "Les placards où tout s'empile et où on perd la moitié de la place 😩 Une étagère qui se pose en 2 secondes et tu doubles l'espace ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
+    { n: "003", date: "2026-10-30", produit: "Coupe-légumes Fullstar", video: "003-coupe-legumes.mp4", lien: "https://amzn.to/3UhjPYY",
+      legende: "Couper les oignons en pleurant pendant 10 minutes 😩 Une pression et tout est coupé en dés réguliers ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
+    { n: "004", date: "2026-10-31", produit: "Gel anti-moisissures Starwax", video: "004-moisissure-robinet.mp4", lien: "https://amzn.to/4i5X5Ek",
+      legende: "La moisissure noire autour du robinet, on la connaît tous 😩 Ce gel anti-moisissures : 15 minutes d'attente, un coup de chiffon et c'est blanc ✨", tags: "#astucemaison #menage #salledebain #pepite #amazonfr" },
+    { n: "005", date: "2026-11-01", produit: "Rangement sous évier coulissant", video: "005-rangement-evier.mp4", lien: "https://amzn.to/3W0dCkH",
+      legende: "Le placard sous l'évier où on ne retrouve jamais rien 😩 Deux tiroirs qui coulissent et tout est rangé ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
+    { n: "006", date: "2026-11-02", produit: "Hachoir Tefal 5 secondes", video: "006-hachoir-tefal.mp4", lien: "https://amzn.to/4BO2ojJ",
+      legende: "Hacher à la main, c'est long et ça finit partout 😩 Tu tires la ficelle quelques fois et c'est haché fin, sans électricité ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
+    { n: "007", date: "2026-11-03", produit: "Boîtes à chaussures transparentes", video: "007-boites-chaussures.mp4", lien: "https://amzn.to/4kjFJoO",
+      legende: "Les chaussures qui traînent partout dans l'entrée 😩 Des boîtes transparentes qui s'empilent et tout est rangé, visible en un coup d'œil ✨", tags: "#rangement #organisation #entree #astucemaison #pepite" },
+  ];
+
+  const texteLegende = (p) => `Commente « PÉPITE » et je t'envoie son lien 📩 ou retrouve le n°${p.n} dans le lien en bio 🔗\n\n${p.legende}\n\nAbonne-toi pour ne pas louper la prochaine pépite 🤍\n\n${p.tags}`;
+  const auj = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
+  const jourFr = (d) => new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const echappe = (t) => t.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+  const copier = async (bouton, texte) => {
+    try { await navigator.clipboard.writeText(texte); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = texte; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    bouton.textContent = 'Copié ✓'; bouton.classList.add('fait');
+    setTimeout(() => { bouton.textContent = 'Copier'; bouton.classList.remove('fait'); }, 2000);
+  };
+
+  const zone = document.getElementById('jours');
+  PLANNING.forEach((p) => {
+    const etat = p.date === auj ? 'aujourdhui' : p.date < auj ? 'passe' : 'avenir';
+    const etiquette = etat === 'aujourdhui' ? "Aujourd'hui" : etat === 'passe' ? 'Publiée' : 'À programmer';
+    const leg = texteLegende(p);
+    const art = document.createElement('article');
+    art.className = 'jour ' + etat;
+    art.innerHTML = `
+      <div class="media">
+        <video src="videos/${p.video}" controls playsinline preload="metadata"></video>
+        <a class="bouton" href="videos/${p.video}" download="${p.video}">Télécharger la vidéo</a>
+      </div>
+      <div class="corps">
+        <div class="entete"><span class="num">n°${p.n}</span><span class="date">${jourFr(p.date)} · 18 h 30</span><span class="etat">${etiquette}</span></div>
+        <p class="produit">${echappe(p.produit)}</p>
+        <div class="bloc">
+          <div class="bloc-titre">Légende <button class="copie" data-q="leg">Copier</button></div>
+          <pre>${echappe(leg)}</pre>
+        </div>
+        <div class="bloc">
+          <div class="bloc-titre">Lien à envoyer en message <button class="copie" data-q="lien">Copier</button></div>
+          <a class="lien" href="${p.lien}" target="_blank" rel="noopener">${p.lien}</a>
+        </div>
+      </div>`;
+    art.querySelector('[data-q="leg"]').addEventListener('click', (e) => copier(e.currentTarget, leg));
+    art.querySelector('[data-q="lien"]').addEventListener('click', (e) => copier(e.currentTarget, p.lien));
+    zone.appendChild(art);
+  });
+  const ici = document.querySelector('.jour.aujourdhui');
+  if (ici) ici.scrollIntoView({ block: 'start' });
+</script>
+</body>
+</html>
