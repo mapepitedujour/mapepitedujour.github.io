@@ -76,7 +76,7 @@
       legende: "Les chaussures qui traînent partout dans l'entrée 😩 Des boîtes transparentes qui s'empilent et tout est rangé, visible en un coup d'œil ✨", tags: "#rangement #organisation #entree #astucemaison #pepite" },
   ];
 
-  const texteLegende = (p) => `Commente « PÉPITE » et je t'envoie son lien 📩 ou retrouve le n°${p.n} dans le lien en bio 🔗\n\n${p.legende}\n\nAbonne-toi pour ne pas louper la prochaine pépite 🤍\n\n${p.tags}`;
+  const texteLegende = (p) => `Commente « PÉPITE » et je t'envoie son lien 📩 ou retrouve le n°${p.n} dans le lien en bio 🔗\n\n${p.legende}\n\nPense à vérifier tes invitations par message : si tu ne me suis pas, le lien peut s'y cacher 🤍\n\nAbonne-toi pour ne pas louper la prochaine pépite 🤍\n\n${p.tags}`;
   const auj = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
   const jourFr = (d) => new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
   const echappe = (t) => t.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
