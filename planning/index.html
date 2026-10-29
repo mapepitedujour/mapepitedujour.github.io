@@ -53,26 +53,26 @@
 <body>
 <main class="page">
   <h1>Planning pépites</h1>
-  <p class="intro">Chaque jour : télécharge la vidéo, copie la légende, programme à 18 h 30 avec une musique calme. Le lien et l'automatisation ManyChat sont gérés par Claude.</p>
+  <p class="intro">Chaque jour : télécharge la vidéo, copie la légende, programme à l'heure indiquée avec une musique calme. Le lien et l'automatisation ManyChat sont gérés par Claude.</p>
   <div id="jours"></div>
 </main>
 
 <script>
   // Ajouter une ligne par nouvelle vidéo. « date » au format AAAA-MM-JJ.
   const PLANNING = [
-    { n: "001", date: "2026-10-28", produit: "Tapis de bain diatomite", video: "001-tapis-diatomite.mp4", lien: "https://amzn.to/4zgjvsF",
+    { n: "001", heure: "12 h 00", date: "2026-10-28", produit: "Tapis de bain diatomite", video: "001-tapis-diatomite.mp4", lien: "https://amzn.to/4zgjvsF",
       legende: "Le tapis de bain encore trempé des heures après la douche, on connaît tous 😩 Celui-ci sèche en quelques secondes ✨", tags: "#salledebain #astucemaison #pepite #amazonfr #maison" },
-    { n: "002", date: "2026-10-29", produit: "Étagères de placard empilables", video: "002-rangement-placard.mp4", lien: "https://amzn.to/4kisTHp",
+    { n: "002", heure: "19 h 00", date: "2026-10-29", produit: "Étagères de placard empilables", video: "002-rangement-placard.mp4", lien: "https://amzn.to/4kisTHp",
       legende: "Les placards où tout s'empile et où on perd la moitié de la place 😩 Une étagère qui se pose en 2 secondes et tu doubles l'espace ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
-    { n: "003", date: "2026-10-30", produit: "Coupe-légumes Fullstar", video: "003-coupe-legumes.mp4", lien: "https://amzn.to/3UhjPYY",
+    { n: "003", heure: "21 h 00", date: "2026-10-30", produit: "Coupe-légumes Fullstar", video: "003-coupe-legumes.mp4", lien: "https://amzn.to/3UhjPYY",
       legende: "Couper les oignons en pleurant pendant 10 minutes 😩 Une pression et tout est coupé en dés réguliers ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
-    { n: "004", date: "2026-10-31", produit: "Gel anti-moisissures Starwax", video: "004-moisissure-robinet.mp4", lien: "https://amzn.to/4i5X5Ek",
+    { n: "004", heure: "21 h 00", date: "2026-10-31", produit: "Gel anti-moisissures Starwax", video: "004-moisissure-robinet.mp4", lien: "https://amzn.to/4i5X5Ek",
       legende: "La moisissure noire autour du robinet, on la connaît tous 😩 Ce gel anti-moisissures : 15 minutes d'attente, un coup de chiffon et c'est blanc ✨", tags: "#astucemaison #menage #salledebain #pepite #amazonfr" },
-    { n: "005", date: "2026-11-01", produit: "Rangement sous évier coulissant", video: "005-rangement-evier.mp4", lien: "https://amzn.to/3W0dCkH",
+    { n: "005", heure: "21 h 00", date: "2026-11-01", produit: "Rangement sous évier coulissant", video: "005-rangement-evier.mp4", lien: "https://amzn.to/3W0dCkH",
       legende: "Le placard sous l'évier où on ne retrouve jamais rien 😩 Deux tiroirs qui coulissent et tout est rangé ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
-    { n: "006", date: "2026-11-02", produit: "Hachoir Tefal 5 secondes", video: "006-hachoir-tefal.mp4", lien: "https://amzn.to/4BO2ojJ",
+    { n: "006", heure: "19 h 00", date: "2026-11-02", produit: "Hachoir Tefal 5 secondes", video: "006-hachoir-tefal.mp4", lien: "https://amzn.to/4BO2ojJ",
       legende: "Hacher à la main, c'est long et ça finit partout 😩 Tu tires la ficelle quelques fois et c'est haché fin, sans électricité ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
-    { n: "007", date: "2026-11-03", produit: "Boîtes à chaussures transparentes", video: "007-boites-chaussures.mp4", lien: "https://amzn.to/4kjFJoO",
+    { n: "007", heure: "19 h 00", date: "2026-11-03", produit: "Boîtes à chaussures transparentes", video: "007-boites-chaussures.mp4", lien: "https://amzn.to/4kjFJoO",
       legende: "Les chaussures qui traînent partout dans l'entrée 😩 Des boîtes transparentes qui s'empilent et tout est rangé, visible en un coup d'œil ✨", tags: "#rangement #organisation #entree #astucemaison #pepite" },
   ];
 
@@ -101,7 +101,7 @@
         <a class="bouton" href="videos/${p.video}" download="${p.video}">Télécharger la vidéo</a>
       </div>
       <div class="corps">
-        <div class="entete"><span class="num">n°${p.n}</span><span class="date">${jourFr(p.date)} · 18 h 30</span><span class="etat">${etiquette}</span></div>
+        <div class="entete"><span class="num">n°${p.n}</span><span class="date">${jourFr(p.date)} · ${p.heure}</span><span class="etat">${etiquette}</span></div>
         <p class="produit">${echappe(p.produit)}</p>
         <div class="bloc">
           <div class="bloc-titre">Légende <button class="copie" data-q="leg">Copier</button></div>
