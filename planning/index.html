@@ -66,9 +66,9 @@
       legende: "Les placards où tout s'empile et où on perd la moitié de la place 😩 Une étagère qui se pose en 2 secondes et tu doubles l'espace ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
     { n: "003", heure: "21 h 00", date: "2026-10-30", produit: "Coupe-légumes Fullstar", video: "003-coupe-legumes.mp4", lien: "https://amzn.to/3UhjPYY",
       legende: "Couper les oignons en pleurant pendant 10 minutes 😩 Une pression et tout est coupé en dés réguliers ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
-    { n: "004", heure: "21 h 00", date: "2026-10-31", produit: "Gel anti-moisissures Starwax", video: "004-moisissure-robinet.mp4", lien: "https://amzn.to/4i5X5Ek",
+    { n: "005", heure: "à remplacer", date: "2026-11-30", produit: "Gel anti-moisissures Starwax", video: "004-moisissure-robinet.mp4", lien: "https://amzn.to/4i5X5Ek",
       legende: "La moisissure noire autour du robinet, on la connaît tous 😩 Ce gel anti-moisissures : 15 minutes d'attente, un coup de chiffon et c'est blanc ✨", tags: "#astucemaison #menage #salledebain #pepite #amazonfr" },
-    { n: "005", heure: "21 h 00", date: "2026-11-01", produit: "Rangement sous évier coulissant", video: "005-rangement-evier.mp4", lien: "https://amzn.to/3W0dCkH",
+    { n: "004", heure: "21 h 00", date: "2026-10-31", produit: "Rangement sous évier coulissant", video: "004-rangement-evier.mp4", lien: "https://amzn.to/3W0dCkH",
       legende: "Le placard sous l'évier où on ne retrouve jamais rien 😩 Deux tiroirs qui coulissent et tout est rangé ✨", tags: "#rangement #organisation #cuisine #astucemaison #pepite" },
     { n: "006", heure: "19 h 00", date: "2026-11-02", produit: "Hachoir Tefal 5 secondes", video: "006-hachoir-tefal.mp4", lien: "https://amzn.to/4BO2ojJ",
       legende: "Hacher à la main, c'est long et ça finit partout 😩 Tu tires la ficelle quelques fois et c'est haché fin, sans électricité ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
@@ -89,7 +89,7 @@
   };
 
   const zone = document.getElementById('jours');
-  PLANNING.forEach((p) => {
+  [...PLANNING].sort((a, b) => a.date.localeCompare(b.date)).forEach((p) => {
     const etat = p.date === auj ? 'aujourdhui' : p.date < auj ? 'passe' : 'avenir';
     const etiquette = etat === 'aujourdhui' ? "Aujourd'hui" : etat === 'passe' ? 'Publiée' : 'À programmer';
     const leg = texteLegende(p);
