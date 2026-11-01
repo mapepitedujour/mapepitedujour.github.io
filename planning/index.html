@@ -47,6 +47,11 @@
   button.copie.fait { background: #e3f6e8; color: var(--ok); }
   button:focus-visible, .bouton:focus-visible { outline: 3px solid var(--pepite); outline-offset: 2px; }
   .lien { font-size: 14px; word-break: break-all; }
+  .galerie { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .galerie a { position: relative; display: block; }
+  .galerie img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; display: block; max-width: 100%; }
+  .galerie span { position: absolute; left: 4px; top: 4px; background: var(--pepite); font-weight: 800; font-size: 12px; padding: 1px 6px; border-radius: 5px; }
+  .aide { margin: 0; font-size: 12px; color: var(--doux); }
   @media (max-width: 620px) { .jour { grid-template-columns: 1fr; } .media { max-width: 240px; } }
 </style>
 </head>
@@ -74,9 +79,11 @@
       legende: "Hacher à la main, c'est long et ça finit partout 😩 Tu tires la ficelle quelques fois et c'est haché fin, sans électricité ✨", tags: "#cuisine #astucecuisine #gadgetcuisine #pepite #amazonfr" },
     { n: "005", heure: "21 h 00", date: "2026-11-01", produit: "Boîtes à chaussures transparentes", video: "005-boites-chaussures.mp4", lien: "https://amzn.to/4kjFJoO",
       legende: "Les chaussures qui traînent partout dans l'entrée 😩 Des boîtes transparentes qui s'empilent et tout est rangé, visible en un coup d'œil ✨", tags: "#rangement #organisation #entree #astucemaison #pepite" },
+    { n: "A1", heure: "12 h 30", date: "2026-11-02", produit: "Carrousel « 3 pépites Action » (5 images)", images: ["action-1.jpg","action-2.jpg","action-3.jpg","action-4.jpg","action-5.jpg"], lien: "https://amzn.to/3V125Bh",
+      legendeComplete: "Commente « PÉPITE » et je t'envoie le lien de l'applique version Amazon 📩\n\n3 pépites Action qui font le buzz en ce moment, toutes à moins de 6 € 🔥 Laquelle tu prends ? 1, 2 ou 3 ? 👇\n\nPense à vérifier tes invitations par message : si tu ne me suis pas, le lien peut s'y cacher 🤍\n\nLien affilié Amazon · Sélection perso, non sponsorisée par Action\n\n#action #actionfrance #trouvailleaction #bonplan #deco #pepite" },
   ];
 
-  const texteLegende = (p) => `Commente « PÉPITE » et je t'envoie son lien 📩 ou retrouve le n°${p.n} dans le lien en bio 🔗\n\n${p.legende}\n\nPense à vérifier tes invitations par message : si tu ne me suis pas, le lien peut s'y cacher 🤍\n\nAbonne-toi pour ne pas louper la prochaine pépite 🤍\n\nLien affilié Amazon\n\n${p.tags}`;
+  const texteLegende = (p) => p.legendeComplete || `Commente « PÉPITE » et je t'envoie son lien 📩 ou retrouve le n°${p.n} dans le lien en bio 🔗\n\n${p.legende}\n\nPense à vérifier tes invitations par message : si tu ne me suis pas, le lien peut s'y cacher 🤍\n\nAbonne-toi pour ne pas louper la prochaine pépite 🤍\n\nLien affilié Amazon\n\n${p.tags}`;
   const auj = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Paris' });
   const jourFr = (d) => new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
   const echappe = (t) => t.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -96,9 +103,11 @@
     const art = document.createElement('article');
     art.className = 'jour ' + etat;
     art.innerHTML = `
-      <div class="media">
+      <div class="media">${p.images ? `
+        <div class="galerie">${p.images.map((im, i) => `<a href="carrousels/${im}" download="${im}"><img src="carrousels/${im}" alt="Image ${i + 1}" loading="lazy"><span>${i + 1}</span></a>`).join('')}</div>
+        <p class="aide">Appuie sur chaque image pour la télécharger, dans l'ordre 1 → ${p.images.length}.</p>` : `
         <video src="videos/${p.video}" controls playsinline preload="metadata"></video>
-        <a class="bouton" href="videos/${p.video}" download="${p.video}">Télécharger la vidéo</a>
+        <a class="bouton" href="videos/${p.video}" download="${p.video}">Télécharger la vidéo</a>`}
       </div>
       <div class="corps">
         <div class="entete"><span class="num">n°${p.n}</span><span class="date">${jourFr(p.date)} · ${p.heure}</span><span class="etat">${etiquette}</span></div>
