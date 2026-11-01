@@ -96,7 +96,7 @@
   };
 
   const zone = document.getElementById('jours');
-  [...PLANNING].sort((a, b) => a.date.localeCompare(b.date)).forEach((p) => {
+  [...PLANNING].sort((a, b) => (a.date + a.heure).localeCompare(b.date + b.heure)).forEach((p) => {
     const etat = p.date === auj ? 'aujourdhui' : p.date < auj ? 'passe' : 'avenir';
     const etiquette = etat === 'aujourdhui' ? "Aujourd'hui" : etat === 'passe' ? 'Publiée' : 'À programmer';
     const leg = texteLegende(p);
